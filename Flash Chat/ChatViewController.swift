@@ -91,13 +91,28 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     
     //TODO: Declare textFieldDidBeginEditing here:
+    
+    
+   
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.25) {
-            self.heightConstraint.constant = 308
-            self.view.layoutIfNeeded()
-            }
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
     }
     
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            heightConstraint.constant = keyboardHeight + 50
+            view.layoutIfNeeded()
+        }
+    }
+//        UIView.animate(withDuration: 0.25) {
+//            self.
+//            self.view.layoutIfNeeded()
+//            }
+//    }
+//
     
     
     //TODO: Declare textFieldDidEndEditing here:
